@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Smart Study Planner</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<h2>Smart Student Study Planner 📘</h2><br>
+
+
+<input type="text" id="task" placeholder="Enter study task">
+<select id="subject">
+<option value="DSA">DSA</option>
+<option value="Web">Web Development</option>
+<option value="Java">Java</option>
+</select>
+
+
+<button onclick="addTask()">Add Task</button>
+
+<ul id="taskList"></ul>
+<p id="progress"></p>
+
+<div class="progress-container">
+<div id="progressBar"></div>
+</div>
+
+
+<script>
+    let tasks = [];
+
+
+function addTask() {
+let taskText = document.getElementById("task").value;
+let subject = document.getElementById("subject").value;
+
+if (taskText === "") {
+alert("Please enter a task");
+return;
+}
+
+let task = {
+text: taskText,
+subject: subject,
+done: false
+};
+tasks.push(task);
+displayTasks();
+document.getElementById("task").value = "";
+}
+
+
+function displayTasks() {
+let list = document.getElementById("taskList");
+list.innerHTML = "";
+
+
+let completed = 0;
+
+
+tasks.forEach((task, index) => {
+let li = document.createElement("li");
+li.innerHTML = `${task.text} (${task.subject})`;
+
+
+if (task.done) {
+li.classList.add("completed");
+completed++;
+}
+li.onclick = () => {
+task.done = !task.done;
+displayTasks();
+};
+
+
+list.appendChild(li);
+});
+
+
+document.getElementById("progress").innerText =
+`Progress: ${completed}/${tasks.length} tasks completed`;
+
+let percent = tasks.length === 0 ? 0 : Math.round((completed / tasks.length) * 100);
+document.getElementById("progressBar").style.width = percent + "%";
+document.getElementById("progressBar").innerText = percent + "%";
+}
+
+</script>
+</body>
+</html>
